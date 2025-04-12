@@ -9,8 +9,6 @@ build:
       - pip3 install --upgrade pip
       - pip3 install --target=/app/.python-packages uvicorn fastapi
       - if [ -f ./backend/requirements.txt ]; then pip install --target=/app/.python-packages -r ./backend/requirements.txt; fi
-      # Verification
-      - python -c "import uvicorn; print(f'✅ Verified uvicorn at {uvicorn.__file__}')"
     post-build:
       - echo "📦 Build artifacts prepared in /app"
 
@@ -18,6 +16,5 @@ run:
   command: PYTHONPATH=/app/.python-packages python -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
   network:
     port: 8080
-  environment:
-    PYTHONUNBUFFERED: "1"
-    PYTHONPATH: "/app/.python-packages"
+  PYTHONUNBUFFERED: "1"
+  PYTHONPATH: "/app/.python-packages"
