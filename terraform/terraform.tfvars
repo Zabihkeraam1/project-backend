@@ -1,7 +1,7 @@
 region = "us-east-1"
 customer_name = "Zabihullah"
 project       = "portfolio"
-repository_url = "https://github.com/Zabihkeraam1/project-template.git"
+repository_url = "https://github.com/Zabihkeraam1/project-backend.git"
 branch = "master"
 db_password = "your_secure_password"
 db_username = "postgres"
