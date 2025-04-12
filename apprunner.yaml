@@ -55,18 +55,18 @@ build:
     build:
       - mkdir -p /app/.python-packages
       - cp -r ./backend/* /app
-      - pip install --upgrade pip
+      - pip3 install --upgrade pip
       # Install with PYTHONPATH set
-      - PYTHONPATH=/app/.python-packages pip install --target=/app/.python-packages uvicorn fastapi
-      - PYTHONPATH=/app/.python-packages pip install --target=/app/.python-packages -r /app/requirements.txt
+      - PYTHONPATH=/app/.python-packages pip3 install --target=/app/.python-packages uvicorn fastapi
+      - PYTHONPATH=/app/.python-packages pip3 install --target=/app/.python-packages -r /app/requirements.txt
       # Verification with PYTHONPATH
-      - PYTHONPATH=/app/.python-packages python -c "import uvicorn; print(f'✅ Uvicorn {uvicorn.__version__} installed at {uvicorn.__file__}')"
+      - PYTHONPATH=/app/.python-packages python3 -c "import uvicorn; print(f'✅ Uvicorn {uvicorn.__version__} installed at {uvicorn.__file__}')"
       - echo "Python path:"
-      - PYTHONPATH=/app/.python-packages python -c "import sys; print(sys.path)"
+      - PYTHONPATH=/app/.python-packages python3 -c "import sys; print(sys.path)"
     post-build:
       - echo "📦 Build completed successfully!"
 
 run:
-  command: PYTHONPATH=/app/.python-packages:/app python -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
+  command: PYTHONPATH=/app/.python-packages:/app python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
   network:
     port: 8080
