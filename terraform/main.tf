@@ -74,11 +74,6 @@ resource "aws_apprunner_service" "backend_service" {
     unhealthy_threshold = 5
   }
 
-  depends_on = [
-    aws_cloudfront_distribution.cdn,
-    aws_s3_bucket.frontend_bucket,
-    aws_db_instance.my_database
-  ]
 }
 
 
