@@ -4,21 +4,24 @@ runtime: python311
 build:
   commands:
     pre-build:
-      - echo "✅ Pre-build step started"
+      - echo "🚀 Starting build process..."
     build:
       - mkdir -p /app
       - cp -r ./backend/* /app
-      - pip3 install --upgrade pip
-      - pip3 install uvicorn fastapi
-      - pip3 install -r /app/requirements.txt
+      - python3.11 -m pip3 install --upgrade pip
+      - python3.11 -m pip3 install uvicorn fastapi
+      - python3.11 -m pip3 install -r /app/requirements.txt
+      # Verification
+      - python3.11 -c "import uvicorn; print(f'✅ Uvicorn {uvicorn.__version__} installed')"
     post-build:
-      - echo "✅ Post-build step complete"
+      - echo "📦 Build completed successfully"
+
 run:
-  runtime-version: 3
   command: |
-     echo "=== INSTALLED PACKAGES ==="
-     python3 -m pip3 list --format=columns
-     python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
+    echo "=== INSTALLED PACKAGES ==="
+    python3.11 -m pip3 list --format=columns
+    echo "=== STARTING APP ==="
+    python3.11 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
   network:
     port: 8080
 
