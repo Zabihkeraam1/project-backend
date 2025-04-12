@@ -30,17 +30,18 @@
 #       - mkdir -p /app/.python-packages
 #       - cp -r ./backend/* /app
 #       - pip3 install --upgrade pip
-#       - pip3 install --target=/app/.python-packages uvicorn fastapi
-#       - pip3 install --target=/app/.python-packages -r /app/requirements.txt
-#       # Verification
-#       - python3 -c "import uvicorn; print(f'✅ Uvicorn {uvicorn.__version__} installed at {uvicorn.__file__}')"
+#       # Install with PYTHONPATH set
+#       - PYTHONPATH=/app/.python-packages pip3 install --target=/app/.python-packages uvicorn fastapi
+#       - PYTHONPATH=/app/.python-packages pip3 install --target=/app/.python-packages -r /app/requirements.txt
+#       # Verification with PYTHONPATH
+#       - PYTHONPATH=/app/.python-packages python3 -c "import uvicorn; print(f'✅ Uvicorn {uvicorn.__version__} installed at {uvicorn.__file__}')"
 #       - echo "Python path:"
-#       - python3 -c "import sys; print(sys.path)"
+#       - PYTHONPATH=/app/.python-packages python3 -c "import sys; print(sys.path)"
 #     post-build:
 #       - echo "📦 Build completed successfully!"
 
 # run:
-#   command: PYTHONPATH=/app/.python-packages python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
+#   command: PYTHONPATH=/app/.python-packages:/app python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
 #   network:
 #     port: 8080
 
@@ -51,22 +52,19 @@ runtime: python311
 build:
   commands:
     pre-build:
-      - echo "🚀 Starting Python 3.11 build process..."
+      - echo "🚀 Starting build process..."
     build:
       - mkdir -p /app/.python-packages
       - cp -r ./backend/* /app
       - pip3 install --upgrade pip
-      # Install with PYTHONPATH set
-      - PYTHONPATH=/app/.python-packages pip3 install --target=/app/.python-packages uvicorn fastapi
-      - PYTHONPATH=/app/.python-packages pip3 install --target=/app/.python-packages -r /app/requirements.txt
-      # Verification with PYTHONPATH
-      - PYTHONPATH=/app/.python-packages python3 -c "import uvicorn; print(f'✅ Uvicorn {uvicorn.__version__} installed at {uvicorn.__file__}')"
-      - echo "Python path:"
-      - PYTHONPATH=/app/.python-packages python3 -c "import sys; print(sys.path)"
+      - pip3 install --target=/usr/local/lib/python3.11/site-packages uvicorn fastapi
+      - pip3 install --target=/usr/local/lib/python3.11/site-packages -r /app/requirements.txt
+      # Verification
+      - python -c "import uvicorn; print(f'✅ Uvicorn {uvicorn.__version__} verified')"
     post-build:
-      - echo "📦 Build completed successfully!"
+      - echo "📦 Build completed successfully"
 
 run:
-  command: PYTHONPATH=/app/.python-packages:/app python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
+  command: python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
   network:
     port: 8080
