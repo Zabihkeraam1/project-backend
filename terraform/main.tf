@@ -40,7 +40,7 @@ resource "aws_apprunner_service" "backend_service" {
         configuration_source = "API"
         code_configuration_values {
         #   runtime        = "NODEJS_18"
-          runtime        = "PYTHON_3.311"
+          runtime        = "PYTHON_311"
         #   build_command = "npm --prefix ./backend install --production"
           build_command = "python3 -m pip install --upgrade pip && python3 -m pip install -r ./backend/requirements.txt"
         #   start_command = "node ./backend/server.js" 
