@@ -42,9 +42,9 @@ resource "aws_apprunner_service" "backend_service" {
         #   runtime        = "NODEJS_18"
           runtime        = "PYTHON_311"
         #   build_command = "npm --prefix ./backend install --production"
-          build_command = "python3.11 -m pip install --upgrade pip && python3.11 -m pip install uvicorn fastapi && [ -f ./backend/requirements.txt ] && python3.11 -m pip install -r ./backend/requirements.txt"
+          build_command = "python -m pip install --upgrade pip && pip install -r ./backend/requirements.txt"
         #   start_command = "node ./backend/server.js" 
-          start_command = "python3.11 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080" 
+          start_command = "uvicorn backend.main:app --host 0.0.0.0 --port 8080" 
           port           = 8080
           runtime_environment_variables = {
             PYTHONUNBUFFERED = "1"
