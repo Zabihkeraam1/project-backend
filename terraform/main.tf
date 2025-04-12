@@ -44,10 +44,11 @@ resource "aws_apprunner_service" "backend_service" {
         #   build_command = "npm --prefix ./backend install --production"
           build_command = "python3 -m pip install --upgrade pip && python3 -m pip install uvicorn fastapi && [ -f ./backend/requirements.txt ] && python3 -m pip install -r ./backend/requirements.txt"
         #   start_command = "node ./backend/server.js" 
-          start_command = "python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080" 
+          start_command = "/usr/local/bin/uvicorn uvicorn backend.main:app --host 0.0.0.0 --port 8080" 
           port           = 8080
           runtime_environment_variables = {
             PYTHONUNBUFFERED = "1"
+            PYTHONPATH = "/usr/local/lib/python3.11/site-packages"
             NODE_ENV        = "production"
           }
         }
