@@ -3,18 +3,11 @@ runtime: python311
 
 build:
   commands:
-    pre-build:
-      - echo "🚀 Starting Python 3.11 build process..."
-    build:
-      - pip3 install --upgrade pip
-      - pip3 install --target=/app/.python-packages uvicorn fastapi
-      - if [ -f ./backend/requirements.txt ]; then pip install --target=/app/.python-packages -r ./backend/requirements.txt; fi
-    post-build:
-      - echo "📦 Build artifacts prepared in /app"
+    - pip3 install --upgrade pip
+    - pip3 install -r ./backend/requirements.txt
 
 run:
-  command: PYTHONPATH=/app/.python-packages python -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
+  runtime-version: 3.11
+  command: python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
   network:
     port: 8080
-  PYTHONUNBUFFERED: "1"
-  PYTHONPATH: "/app/.python-packages"
