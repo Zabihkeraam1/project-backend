@@ -3,26 +3,17 @@ runtime: python311
 
 build:
   commands:
-    # Optional - useful if your app needs to set up something before build
-    pre-build: |
-      echo "✅ Pre-build step started"
-
-    # Required - make sure your app and deps go into /app
-    build: |
-      mkdir -p /app
-      cp -r ./backend/* /app
-      pip install --upgrade pip
-      pip install -r /app/requirements.txt
-
-    # Optional - for any cleanup or logging after build
-    post-build: |
-      echo "✅ Post-build step complete"
+    pre-build:
+      - echo "✅ Pre-build step started"
+    build:
+      - mkdir -p /app
+      - cp -r ./backend/* /app
+      - pip install --upgrade pip
+      - pip install -r /app/requirements.txt
+    post-build:
+      - echo "✅ Post-build step complete"
 
 run:
-  command: python3 -m uvicorn main:app --host 0.0.0.0 --port 8080
+  command: python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
   network:
     port: 8080
-
-  # This is only needed if you want to modify anything outside of /app
-  pre-run: |
-    echo "✅ Pre-run: nothing to do for now"
