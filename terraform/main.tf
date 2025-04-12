@@ -38,19 +38,6 @@ resource "aws_apprunner_service" "backend_service" {
 
       code_configuration {
         configuration_source = "REPOSITORY"
-        code_configuration_values {
-        #   runtime        = "NODEJS_18"
-          runtime        = "PYTHON_311"
-        #   build_command = "npm --prefix ./backend install --production"
-         build_command = "pip3 install --upgrade pip && pip3 install uvicorn fastapi && pip3 install -r ./backend/requirements.txt"
-        #   start_command = "node ./backend/server.js" 
-         start_command = "python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080" 
-          port           = 8080
-          runtime_environment_variables = {
-            PYTHONUNBUFFERED = "1"
-            NODE_ENV        = "production"
-          }
-        }
       }
     }
   }
