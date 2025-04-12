@@ -42,9 +42,13 @@ resource "aws_apprunner_service" "backend_service" {
         #   runtime        = "NODEJS_18"
           runtime        = "PYTHON_311"
         #   build_command = "npm --prefix ./backend install --production"
-          build_command = "pip3 install --upgrade pip && pip3 install -r ./backend/requirements.txt"
+         # build_command = "pip3 install --upgrade pip && pip3 install -r ./backend/requirements.txt"
         #   start_command = "node ./backend/server.js" 
-          start_command = "python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080" 
+         # start_command = "python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080" 
+            # 🚀 Install inside pre_run_command to persist packages
+        pre_run_command = "pip3 install --upgrade pip && pip3 install -r ./backend/requirements.txt"
+        # ✅ Start using uvicorn directly
+          start_command = "python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080"
           port           = 8080
           runtime_environment_variables = {
             PYTHONUNBUFFERED = "1"
