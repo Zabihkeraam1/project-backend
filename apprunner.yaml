@@ -50,16 +50,30 @@ build:
     pre-build:
       - echo "🚀 Starting build process..."
     build:
-      # System-wide installation (recommended by AWS)
+      # Install to both system and app directory (dual protection)
       - python3.11 -m pip install --upgrade pip
-      - python3.11 -m pip install --no-warn-script-location uvicorn fastapi
-      - python3.11 -m pip install --no-warn-script-location -r ./backend/requirements.txt
+      - python3.11 -m pip install --system uvicorn fastapi
+      - python3.11 -m pip install --system -r ./backend/requirements.txt
+      # Additional install to /app as backup
+      - mkdir -p /app/.python-packages
+      - python3.11 -m pip install --target=/app/.python-packages uvicorn fastapi
+      - python3.11 -m pip install --target=/app/.python-packages -r ./backend/requirements.txt
       # Verification
-      - python3.11 -c "import uvicorn; print(f'✅ Uvicorn {uvicorn.__version__} at {uvicorn.__file__}')"
+      - python3.11 -c "import uvicorn; print(f'✅ System Uvicorn at {uvicorn.__file__}')"
+      - PYTHONPATH=/app/.python-packages python3.11 -c "import uvicorn; print(f'✅ Local Uvicorn at {uvicorn.__file__}')"
     post-build:
       - echo "📦 Build completed successfully"
 
 run:
-  command: python3.11 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
+  command: |
+    echo "=== PYTHONPATH ==="
+    python3.11 -c "import sys; print(sys.path)"
+    echo "=== STARTING APP ==="
+    python3.11 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
   network:
     port: 8080
+  env:
+    - name: PYTHONUNBUFFERED
+      value: : "1"
+    - name: PYTHONPATH
+      value: "/app/.python-packages:/usr/local/lib/python3.11/site-packages"
