@@ -6,21 +6,15 @@ build:
     pre-build:
       - echo "🚀 Starting build process..."
     build:
-      - mkdir -p /app
-      - cp -r ./backend/* /app
       - pip3 install --upgrade pip
       - pip3 install uvicorn fastapi
       - pip3 install -r /app/requirements.txt
-      # Verification
-      - python3.11 -c "import uvicorn; print(f'✅ Uvicorn {uvicorn.__version__} installed at {uvicorn.__file__}')"
-    post-build:
-      - echo "📦 Build completed successfully"
 
 run:
   command: |
     echo "=== INSTALLED PACKAGES ==="
     pip3 list --format=columns
     echo "=== STARTING APP ==="
-    python3.11 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
+    python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
   network:
     port: 8080
