@@ -1,20 +1,39 @@
+# version: 1.0
+# runtime: python311
+
+# build:
+#   commands:
+#     pre-build:
+#       - echo "✅ Pre-build step started"
+#     build:
+#       - mkdir -p /app
+#       - cp -r ./backend/* /app
+#       - pip3 install --upgrade pip
+#       - pip3 install -r /app/requirements.txt
+#     post-build:
+#       - echo "✅ Post-build step complete"
+# run:
+#   runtime-version: 3.11
+#   command: python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
+#   network:
+#     port: 8080
+
+
 version: 1.0
 runtime: python311
 
 build:
   commands:
-    pre-build:
-      - echo "✅ Pre-build step started"
     build:
-      - mkdir -p /app
-      - cp -r ./backend/* /app
       - pip3 install --upgrade pip
-      - pip3 install -r /app/requirements.txt
-    post-build:
-      - echo "✅ Post-build step complete"
+      - pip3 install --target=/app/.python-packages uvicorn fastapi
+      - pip3 install --target=/app/.python-packages -r ./backend/requirements.txt
+      - python3 -c "import uvicorn; print(f'Uvicorn {uvicorn.__version__} installed')"
+
 run:
-  runtime-version: 3.11
-  command: python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
+  command: PYTHONPATH=/app/.python-packages python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
   network:
     port: 8080
-
+  environment:
+    PYTHONUNBUFFERED: "1"
+    NODE_ENV: "production"
