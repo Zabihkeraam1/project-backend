@@ -1,6 +1,6 @@
 region = "us-east-1"
 customer_name = "Zabihullah"
-project       = "portfolio"
+project       = "backend-template"
 repository_url = "https://github.com/Zabihkeraam1/project-backend.git"
 branch = "master"
 db_password = "your_secure_password"
