@@ -1,0 +1,24 @@
+version: 1.0
+runtime: python311
+
+build:
+  commands:
+    pre-build:
+      - echo "🚀 Starting build process..."
+    build:
+      - python3 -m venv /app/venv
+      - . /app/venv/bin/activate
+      - pip3 install --upgrade pip
+      - pip3 install uvicorn fastapi
+      - pip3 install -r requirements.txt
+
+run:
+  command: |
+    echo "=== ACTIVATING VENV ==="
+    . /app/venv/bin/activate
+    echo "=== INSTALLED PACKAGES ==="
+    pip3 list --format=columns
+    echo "=== STARTING APP ==="
+    python -m uvicorn main:app --host 0.0.0.0 --port 8080
+  network:
+    port: 8080
