@@ -34,6 +34,7 @@ resource "aws_apprunner_service" "backend_service" {
       source_code_version {
         type  = "BRANCH"
         value = var.branch
+        source_directory = "backend"
       }
 
       code_configuration {
