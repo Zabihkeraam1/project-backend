@@ -16,8 +16,6 @@ resource "random_id" "bucket_suffix" {
   byte_length = 4
 }
 
-
-
 # _____________________Creating App-runner___________________
 resource "aws_apprunner_service" "backend_service" {
   service_name = "${var.project}-backend-${random_id.bucket_suffix.hex}"
@@ -31,24 +29,25 @@ resource "aws_apprunner_service" "backend_service" {
 
     code_repository {
       repository_url = var.repository_url
+
       source_code_version {
         type  = "BRANCH"
         value = var.branch
-        source_directory = "backend"
       }
 
       code_configuration {
         configuration_source = "REPOSITORY"
+        # When using 'REPOSITORY', App Runner reads the configuration from 'apprunner.yaml' in your repository.
       }
     }
   }
 
   instance_configuration {
-    cpu               = "1024"
-    memory            = "2048"
+    cpu    = "1024"
+    memory = "2048"
   }
 
-    tags = {
+  tags = {
     Name        = "${var.project}--backend"
     Project     = var.project
     Environment = "production"
@@ -62,9 +61,7 @@ resource "aws_apprunner_service" "backend_service" {
     healthy_threshold   = 3
     unhealthy_threshold = 5
   }
-
 }
-
 
 output "apprunner_service_url" {
   value       = aws_apprunner_service.backend_service.service_url
