@@ -51,7 +51,7 @@ async def health():
 @app.get("/")
 async def root():
     return {
-        "message": "🚀 Deployment Successful again and again!",
+        "message": "🚀 Deployment Successful!",
         "status": "running",
         "timestamp": asyncio.get_event_loop().time(),  # Use directly without await
         "origin": os.getenv("FRONTEND_DOMAIN")
