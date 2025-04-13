@@ -6,12 +6,12 @@ build:
     pre-build:
       - echo "🚀 Starting build process..."
     build:
-      - cd backend
-      - python3 -m venv /app/venv
-      - . /app/venv/bin/activate
+      # - cd backend
+      # - python3 -m venv /app/venv
+      # - . /app/venv/bin/activate
       - pip3 install --upgrade pip
       - pip3 install uvicorn fastapi
-      - pip3 install -r ./requirements.txt
+      - pip3 install -r ./backend/requirements.txt
 
 run:
   command: |
