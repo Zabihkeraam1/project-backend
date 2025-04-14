@@ -40,7 +40,7 @@ resource "aws_apprunner_service" "backend_service" {
          code_configuration_values {
           runtime        = "PYTHON_311"
           # build_command = "python3 -m venv /app/venv && source /app/venv/bin/activate && pip3 install --upgrade pip && pip3 install fastapi uvicorn && pip3 install -r ./backend/requirements.txt && chmod +x ./start.sh && pip3 list"
-          build_command = "chmod +x build.sh && ./terraform/build.sh"
+          build_command = "chmod +x terraform/build.sh && ./terraform/build.sh"
           # start_command = "pip3 install --upgrade pip && source /app/venv/bin/activate && pip3 install fastapi uvicorn && pip3 install -r ./backend/requirements.txt && uvicorn backend.main:app --host 0.0.0.0 --port 8080" 
           start_command = "./terraform/start.sh"
           port           = 8080
