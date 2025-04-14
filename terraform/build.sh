@@ -13,7 +13,7 @@ pip install fastapi uvicorn
 pip install -r ./backend/requirements.txt
 
 # Ensure start.sh is executable
-chmod +x ./start.sh
+# chmod +x ./start.sh
 
 # List installed packages
 pip list
